@@ -12,7 +12,7 @@ namespace MohawkGame2D;
 public class Game
 {
     // Place your variables here:
-    Coin[] coins = new Coin[5];
+    Coin[] coins = new Coin[10];
     public Player player = new Player();
     int coincounter = 1;
 
@@ -49,6 +49,14 @@ public class Game
     /// </summary>
     public void Update()
     {
+        if (player.coinscollected < 20)
+            PlayGame();
+
+        if (player.coinscollected == 20)
+            GameOverWinner();
+    }
+    public void PlayGame()
+    {
         // Prepare for drawing
         Window.ClearBackground(Color.LightGray);
 
@@ -63,7 +71,7 @@ public class Game
         for (int i = 0; i < coincounter; i++)
         {
             coins[i].coindrop();
-   
+
             bool didyoucollect = player.isMoneyCollected(coins[i]);
             if (didyoucollect == true)
             {
@@ -80,12 +88,24 @@ public class Game
 
         //Players can track how many coins they've collected so far
         Text.Size = 25;
-        Text.Draw($"Coins Collected: {player.coinscollected}", new Vector2 (10, 10));
-    }
-    public void PlayGame()
-    {
-        //Window.ClearBackground(Color.OffWhite);
-    
+        Text.Draw($"Coins Collected: {player.coinscollected}", new Vector2(10, 10));
 
+
+    }
+
+    public void GameOverWinner()
+    {
+        Window.ClearBackground(Color.LightGray);
+        Text.Size = 20;
+        Text.Draw("WINNER! GAME OVER!", new Vector2(150, 200));
+        Text.Draw("Press Space to Play Again!", new Vector2(150, 250));
+    }
+
+    public void GameOverLoser()
+    {
+        Window.ClearBackground(Color.LightGray);
+        Text.Size = 20;
+        Text.Draw("YOU LOST! GAME OVER!", new Vector2(150, 200));
+        Text.Draw("Press Space to Play Again!", new Vector2(150, 250));
     }
 }
