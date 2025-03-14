@@ -36,6 +36,7 @@ namespace MohawkGame2D
 
         }
 
+        //have the bomb respawn back at the top of the window
         public bool respawnbomb()
         {
             bool respawn = position.Y > Window.Height;

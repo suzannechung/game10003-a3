@@ -45,7 +45,7 @@ public class Game
             coins[i] = coin_im;
         }
 
-        //randomly assign bomb at the top
+        //randomly assign bombs at the top
         for (int i = 0; i < bombs.Length; i++)
         {
             Bomb bomb_im = new Bomb();
@@ -80,9 +80,10 @@ public class Game
 
     }
 
+  
     public void PlayGame()
     {
-        // Prepare for drawing
+        // Draw coins, bomb and player (money bag)
         Window.ClearBackground(Color.LightGray);
 
         player.Move();
@@ -97,7 +98,8 @@ public class Game
         {
             bombs[i].bomb();
         }
-
+        
+        //coin drops
         for (int i = 0; i < coincounter; i++)
         {
             coins[i].coindrop();
@@ -120,7 +122,7 @@ public class Game
         Text.Size = 25;
         Text.Draw($"Coins Collected: {player.coinscollected}", new Vector2(10, 10));
 
-
+        //bomb drops
         for (int i = 0; i < bombcounter; i++)
         {
             bombs[i].bombdrop();
@@ -141,13 +143,15 @@ public class Game
 
     }
 
+    //Winner Screen!
     public void GameOverWinner()
     {
         Window.ClearBackground(Color.LightGray);
         Text.Size = 20;
         Text.Draw("WINNER! GAME OVER!", new Vector2(150, 200));
     }
-
+    
+    //Loser Screen
     public void GameOverLoser()
     {
         Window.ClearBackground(Color.LightGray);

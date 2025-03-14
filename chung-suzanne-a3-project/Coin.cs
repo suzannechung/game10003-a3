@@ -36,6 +36,7 @@ namespace MohawkGame2D
 
         }
 
+        //have the coin respawn back at the top of the window
         public bool respawncoin()
         {
             bool respawn = position.Y > Window.Height;

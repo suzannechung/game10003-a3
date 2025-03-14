@@ -8,7 +8,6 @@ namespace MohawkGame2D
     {
         public Vector2 position;
         public Vector2 size;
-        public float colliderSize = 0;
         public float speed = 5f;
         public int coinscollected;
 
@@ -35,7 +34,7 @@ namespace MohawkGame2D
         }
 
 
-
+        //player movement is left or right
         public void Move()
         {
             // Left and right movement of money bag only
@@ -51,6 +50,7 @@ namespace MohawkGame2D
 
         }
 
+        //Coin collision check!
         public bool isMoneyCollected(Coin coin)
         {
             if (coin.isVisible == false)
@@ -75,7 +75,7 @@ namespace MohawkGame2D
             return isCollected;
         }
 
-
+        //Bomb collision check!
         public bool didyouhitbomb(Bomb bomb)
         {
             if (bomb.isVisible == false)
