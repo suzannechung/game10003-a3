@@ -69,11 +69,11 @@ public class Game
             GameOverLoser(); 
         }
 
-        else if (player.coinscollected < 10)
+        else if (player.coinscollected < 20)
         {
             PlayGame();
         }
-        else if (player.coinscollected >= 10)
+        else if (player.coinscollected >= 20)
         {
             GameOverWinner();
         }
