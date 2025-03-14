@@ -13,8 +13,11 @@ public class Game
 {
     // Place your variables here:
     Coin[] coins = new Coin[10];
+    Bomb[] bombs = new Bomb[2];
     public Player player = new Player();
     int coincounter = 1;
+    int bombcounter = 1;
+    int bombhit = 0;
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -42,6 +45,18 @@ public class Game
             coins[i] = coin_im;
         }
 
+        //randomly assign bomb at the top
+        for (int i = 0; i < bombs.Length; i++)
+        {
+            Bomb bomb_im = new Bomb();
+            bomb_im.size = new Vector2(40, 40);
+            bomb_im.isVisible = true;
+            bomb_im.position.X = Random.Float(50, Window.Width - bomb_im.size.X);
+            bomb_im.position.Y = -bomb_im.size.Y;
+
+            bombs[i] = bomb_im;
+        }
+
     }
 
     /// <summary>
@@ -49,12 +64,22 @@ public class Game
     /// </summary>
     public void Update()
     {
-        if (player.coinscollected < 20)
-            PlayGame();
+        if (bombhit >= 1)
+        { 
+            GameOverLoser(); 
+        }
 
-        if (player.coinscollected == 20)
+        else if (player.coinscollected < 10)
+        {
+            PlayGame();
+        }
+        else if (player.coinscollected >= 10)
+        {
             GameOverWinner();
+        }
+
     }
+
     public void PlayGame()
     {
         // Prepare for drawing
@@ -66,6 +91,11 @@ public class Game
         for (int i = 0; i < coins.Length; i++)
         {
             coins[i].coin();
+        }
+
+        for (int i = 0; i < bombs.Length; i++)
+        {
+            bombs[i].bomb();
         }
 
         for (int i = 0; i < coincounter; i++)
@@ -91,6 +121,24 @@ public class Game
         Text.Draw($"Coins Collected: {player.coinscollected}", new Vector2(10, 10));
 
 
+        for (int i = 0; i < bombcounter; i++)
+        {
+            bombs[i].bombdrop();
+
+            bool didyouhit = player.didyouhitbomb(bombs[i]);
+            if (didyouhit == true)
+            {
+                bombs[i].isVisible = false;
+                bombhit++;
+            }
+
+            bool didbombpass = bombs[i].respawnbomb();
+            if (didbombpass && bombcounter < bombs.Length)
+            {
+                bombcounter++;
+            }
+        }
+
     }
 
     public void GameOverWinner()
@@ -98,7 +146,6 @@ public class Game
         Window.ClearBackground(Color.LightGray);
         Text.Size = 20;
         Text.Draw("WINNER! GAME OVER!", new Vector2(150, 200));
-        Text.Draw("Press Space to Play Again!", new Vector2(150, 250));
     }
 
     public void GameOverLoser()
@@ -106,6 +153,5 @@ public class Game
         Window.ClearBackground(Color.LightGray);
         Text.Size = 20;
         Text.Draw("YOU LOST! GAME OVER!", new Vector2(150, 200));
-        Text.Draw("Press Space to Play Again!", new Vector2(150, 250));
     }
 }

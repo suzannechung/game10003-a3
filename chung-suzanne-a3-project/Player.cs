@@ -74,5 +74,30 @@ namespace MohawkGame2D
 
             return isCollected;
         }
+
+
+        public bool didyouhitbomb(Bomb bomb)
+        {
+            if (bomb.isVisible == false)
+                return false;
+
+            float playerLeft = position.X;
+            float playerRight = position.X + size.X;
+            float playerTop = position.Y;
+            float playerBottom = position.Y + size.Y;
+
+            float bombLeft = bomb.position.X;
+            float bombRight = bomb.position.X + bomb.size.X;
+            float bombTop = bomb.position.Y;
+            float bombBottom = bomb.position.Y + bomb.size.Y;
+
+            bool CheckLeftHit = playerRight > bombLeft;
+            bool CheckRightHit = playerLeft < bombRight;
+            bool CheckTopHit = playerBottom > bombTop;
+            bool CheckBottomHit = playerTop < bombBottom;
+            bool didyouhit = CheckLeftHit && CheckRightHit && CheckTopHit && CheckBottomHit;
+
+            return didyouhit;
+        }
     }
 }

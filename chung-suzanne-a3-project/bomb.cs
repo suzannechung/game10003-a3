@@ -4,17 +4,17 @@ using System.Numerics;
 
 namespace MohawkGame2D
 {
-    public class Coin
+    public class Bomb
     {
         public Vector2 position;
         public Vector2 velocity;
         public Vector2 size;
-        public float speed = 1f;
+        public float speed = 2f;
         public bool isVisible;
 
-        Texture2D texture = Graphics.LoadTexture("../../../../assets/Coin50.png");
+        Texture2D texture = Graphics.LoadTexture("../../../../assets/bomb40.png");
 
-        public void coin()
+        public void bomb()
         {
             if (isVisible == true)
             {
@@ -26,17 +26,17 @@ namespace MohawkGame2D
         }
 
 
-        public void coindrop()
+        public void bombdrop()
         {
             // Accelerate velocity over time
-            velocity.Y += Time.DeltaTime * speed;
+            velocity.Y += Time.DeltaTime * speed/2;
 
             // Update position based on velocity
             position += velocity;
 
         }
 
-        public bool respawncoin()
+        public bool respawnbomb()
         {
             bool respawn = position.Y > Window.Height;
             if (respawn)
