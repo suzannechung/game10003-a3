@@ -10,6 +10,7 @@ namespace MohawkGame2D
         public Vector2 size;
         public float colliderSize = 0;
         public float speed = 5f;
+        public int coinscollected;
 
         public Player()
         {
@@ -24,34 +25,16 @@ namespace MohawkGame2D
 
             //Player Texture
             Texture2D moneybag = Graphics.LoadTexture("../../../../assets/moneybag150.png");
-            Graphics.Draw(moneybag, position - (Vector2.One * 10));
+            Graphics.Draw(moneybag, position);
         }
 
         public void Update()
         {
             Move();
-            ConstrainToWindow();
+
         }
 
-        private void ConstrainToWindow()
-        {
-            bool isTouchingTop = position.Y - colliderSize <= 0;
-            bool isTouchingBottom = position.Y + colliderSize >= Window.Height;
-            bool isTouchingLeft = position.X - colliderSize <= 0;
-            bool isTouchingRight = position.X + colliderSize >= Window.Width;
 
-            if (isTouchingLeft)
-                position.X = 0 + colliderSize;
-
-            if (isTouchingRight)
-                position.X = Window.Width - colliderSize;
-
-            if (isTouchingTop)
-                position.Y = 0 + colliderSize;
-
-            if (isTouchingBottom)
-                position.Y = Window.Height - colliderSize;
-        }
 
         public void Move()
         {
@@ -61,6 +44,35 @@ namespace MohawkGame2D
             if (Input.IsKeyboardKeyDown(KeyboardInput.D) || Input.IsKeyboardKeyDown(KeyboardInput.Right)) 
                 position.X += speed;
 
+            if (position.X < 0) 
+                position.X = 0;
+            if (position.X + size.X > Window.Width)
+                position.X = Window.Width - size.X;
+
+        }
+
+        public bool isMoneyCollected(Coin coin)
+        {
+            if (coin.isVisible == false)
+                return false;
+
+            float playerLeft = position.X;
+            float playerRight = position.X + size.X;
+            float playerTop = position.Y;
+            float playerBottom = position.Y + size.Y;
+
+            float coinLeft = coin.position.X;
+            float coinRight = coin.position.X + coin.size.X;
+            float coinTop = coin.position.Y;
+            float coinBottom = coin.position.Y + coin.size.Y;
+
+            bool CheckLeftHit = playerRight > coinLeft;
+            bool CheckRightHit = playerLeft < coinRight;
+            bool CheckTopHit = playerBottom > coinTop;
+            bool CheckBottomHit = playerTop < coinBottom;
+            bool isCollected = CheckLeftHit && CheckRightHit && CheckTopHit && CheckBottomHit;
+
+            return isCollected;
         }
     }
 }

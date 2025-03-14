@@ -12,16 +12,9 @@ namespace MohawkGame2D;
 public class Game
 {
     // Place your variables here:
-    Coin[] coindropper = new Coin[50];
-    Vector2 position;
-    Vector2 velocity;
-    int activeasteros = 0;
-    int countBulletHitEdges;
-    bool isGameOver;
-    int maxBulletCount = 1000;
-    int hitsRequired;
-
+    Coin[] coins = new Coin[5];
     public Player player = new Player();
+    int coincounter = 1;
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -32,9 +25,22 @@ public class Game
         Window.SetSize(500, 500);
 
         player.position.X = Window.Width / 2;
-        player.position.Y = Window.Height - 100;
-;
+        player.position.Y = Window.Height - 140;
+        player.size.X = 100;
+        player.size.Y = 100;
+        player.coinscollected = 0;
+        
+        //randomly assign coins at the top
+        for (int i = 0; i < coins.Length; i++)
+        {
+            Coin coin_im = new Coin();
+            coin_im.size = new Vector2(50, 50);
+            coin_im.isVisible = true;
+            coin_im.position.X = Random.Float(50, Window.Width - coin_im.size.X);
+            coin_im.position.Y = -coin_im.size.Y;
 
+            coins[i] = coin_im;
+        }
 
     }
 
@@ -44,20 +50,42 @@ public class Game
     public void Update()
     {
         // Prepare for drawing
-        Window.ClearBackground(Color.OffWhite);
-        //Graphics.Draw(texture, 100, 100);
+        Window.ClearBackground(Color.LightGray);
+
         player.Move();
         player.Render();
-    }
 
+        for (int i = 0; i < coins.Length; i++)
+        {
+            coins[i].coin();
+        }
+
+        for (int i = 0; i < coincounter; i++)
+        {
+            coins[i].coindrop();
+   
+            bool didyoucollect = player.isMoneyCollected(coins[i]);
+            if (didyoucollect == true)
+            {
+                coins[i].isVisible = false;
+                player.coinscollected += 1;
+            }
+
+            bool didcoinpass = coins[i].respawncoin();
+            if (didcoinpass && coincounter < coins.Length)
+            {
+                coincounter++;
+            }
+        }
+
+        //Players can track how many coins they've collected so far
+        Text.Size = 25;
+        Text.Draw($"Coins Collected: {player.coinscollected}", new Vector2 (10, 10));
+    }
     public void PlayGame()
     {
-        Window.ClearBackground(Color.OffWhite);
-        
-        for (int i = 0; i < coindropper.Length; i++)
-        {
-            coindropper[i].coin();
-        }
+        //Window.ClearBackground(Color.OffWhite);
+    
 
     }
 }
