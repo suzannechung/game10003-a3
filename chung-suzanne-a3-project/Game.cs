@@ -12,24 +12,29 @@ namespace MohawkGame2D;
 public class Game
 {
     // Place your variables here:
-    const string assetFolder = "../../../../assets/";
-    // Load graphic
-    Texture2D texture = Graphics.LoadTexture(assetFolder + "mediAsteroids.png");
-
-    Asteroids[] asteros = [new Asteroids(new Vector2(300, 200)), new Asteroids(new Vector2(100, 200)), new Asteroids(new Vector2(200, 200))];
+    Coin[] coindropper = new Coin[50];
+    Vector2 position;
+    Vector2 velocity;
     int activeasteros = 0;
     int countBulletHitEdges;
     bool isGameOver;
     int maxBulletCount = 1000;
     int hitsRequired;
 
+    public Player player = new Player();
+
     /// <summary>
     ///     Setup runs once before the game loop begins.
     /// </summary>
     public void Setup()
     {
-        Window.SetTitle("Get the Asteroids!");
+        Window.SetTitle("Get Richer or Die Trying!");
         Window.SetSize(500, 500);
+
+        player.position.X = Window.Width / 2;
+        player.position.Y = Window.Height - 100;
+;
+
 
     }
 
@@ -39,37 +44,20 @@ public class Game
     public void Update()
     {
         // Prepare for drawing
-        //Window.ClearBackground(Color.OffWhite);
+        Window.ClearBackground(Color.OffWhite);
         //Graphics.Draw(texture, 100, 100);
-        for (int i = 0; i < asteros.Length; i++)
-        {
-            asteros[i].Render();
-   
-        }
-
+        player.Move();
+        player.Render();
     }
 
     public void PlayGame()
     {
         Window.ClearBackground(Color.OffWhite);
-
-        //player.Update();
-
-        for (int i = 0; i < activeasteros; i++)
+        
+        for (int i = 0; i < coindropper.Length; i++)
         {
-            Asteroids bullet = asteros[i];
-            bullet.Update();
-            bullet.Render();
-            activeasteros++;
-
-            // does bullet hit player
-            //float distance = Vector2.Distance(player.position, bullet.GetPosition());
-            //if (distance < player.drawSize)
-            //{
-            //isGameOver = true;
-            //}
+            coindropper[i].coin();
         }
 
-        //player.Render();
     }
 }
