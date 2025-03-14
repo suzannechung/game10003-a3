@@ -24,7 +24,7 @@ public class Game
     /// </summary>
     public void Setup()
     {
-        Window.SetTitle("Get Richer or Die Trying!");
+        Window.SetTitle("Get Rich or Die Trying!");
         Window.SetSize(500, 500);
 
         player.position.X = Window.Width / 2;
